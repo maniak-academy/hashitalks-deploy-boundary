@@ -1,4 +1,10 @@
 terraform {
+  cloud {
+    organization = "maniakacademy"
+    workspaces {
+      name = "maniakacademy-boundary"
+    }
+  }
   required_providers {
     boundary = {
       source  = "hashicorp/boundary"
