@@ -20,13 +20,6 @@ resource "boundary_scope" "project_aws" {
 }
 
 
-resource "boundary_worker" "worker_aws" {
-  scope_id                    = "global"
-  name                        = "aws private worker"
-  description                 = "self managed worker with worker led auth"
-  worker_generated_auth_token = var.worker_generated_auth_token
-}
-
 resource "boundary_host_catalog_static" "platform_eng" {
   name        = "PlatformEng"
   description = "Platform Catalog"
@@ -67,7 +60,7 @@ resource "boundary_target" "F5-BIGIP" {
   default_port = "22"
   scope_id     = boundary_scope.project_aws.id
 
-  egress_worker_filter = " \"workeraws\" in \"/tags/type\" "
+  egress_worker_filter = " \"maniakacademy\" in \"/tags/type\" "
 }
 
 resource "boundary_host_set_static" "platform_eng" {
@@ -115,7 +108,7 @@ resource "boundary_auth_method_oidc" "provider" {
   client_secret        = var.client_secret
   is_primary_for_scope = true
   signing_algorithms   = ["RS256"]
-  api_url_prefix       = "https://bbfa138d-ba47-4a0b-9979-7ffb2fb1022e.boundary.hashicorp.cloud"
+  api_url_prefix       = "https://bea6dd75-103d-440e-bc65-d8c476d2ddfb.boundary.hashicorp.cloud"
 }
 
 resource "boundary_managed_group" "oidc_group" {

@@ -27,10 +27,10 @@ resource "aws_instance" "worker_ec2" {
               }
 
               worker {
-                initial_upstreams = ["d13ec5f0-12ed-f611-892d-31f017cece85.proxy.boundary.hashicorp.cloud:9202"]
+                initial_upstreams = ["ca5c49f3-a488-26a4-918c-eaafa7ff439d.proxy.boundary.hashicorp.cloud:9202"]
                 auth_storage_path = "/home/ubuntu/boundary/worker"
                 tags {
-                  type = ["bastion","esx"]
+                  type = ["workeraws"]
                 }
               }
               EOT
@@ -74,7 +74,7 @@ resource "tls_private_key" "workerssh" {
 }
 
 resource "aws_key_pair" "workerssh" {
-  key_name   = "sshfwkey" # Set a simple name for the key pair
+  key_name   = "workerssh" # Set a simple name for the key pair
   public_key = tls_private_key.workerssh.public_key_openssh
 }
 
@@ -83,15 +83,15 @@ resource "null_resource" "key" {
   depends_on = [aws_key_pair.workerssh]
 
   provisioner "local-exec" {
-    command = "echo \"${tls_private_key.workerssh.private_key_pem}\" > sshfwkey.pem"
+    command = "echo \"${tls_private_key.workerssh.private_key_pem}\" > workerssh.pem"
   }
 
   provisioner "local-exec" {
-    command = "chmod 600 sshfwkey.pem"
+    command = "chmod 600 workerssh.pem"
   }
 
   provisioner "local-exec" {
     when    = destroy
-    command = "rm -f sshfwkey.pem"
+    command = "rm -f workerssh.pem"
   }
 }

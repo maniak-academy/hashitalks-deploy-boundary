@@ -13,7 +13,7 @@ terraform apply
 2. SSH into the work and authenticate the worker
 
 ```
-ssh -i sshfwkey.pem ubuntu@18.212.93.42
+ssh -i sshfwkey.pem ubuntu@52.6.212.233
 ```
 
 3. Get the token key
