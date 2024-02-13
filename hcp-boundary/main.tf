@@ -18,9 +18,17 @@ terraform {
       source  = "hashicorp/tls"
       version = ">=4.0.4"
     }
+    aws = {
+      source = "hashicorp/aws"
+      version = "5.36.0"
+    }
   }
 }
 
+provider "aws" {
+  region = "us-east-1"
+
+}
 provider "boundary" {
   addr                   = var.url
   auth_method_id         = var.auth_method_id
